@@ -104,9 +104,6 @@ const Home: FunctionComponent<Props> = ({ projects }) => {
           </div>
         </form>
       </Modal>
-      <div>
-        <SingleStatGroup />
-      </div>
       <div className="mt-4">
         <ProjectList projects={projects} />
       </div>
@@ -125,9 +122,11 @@ export const getServerSideProps = withSession(
 
     const resp = await apiClient("/organizations/" + slug + "/projects");
 
+    const projects = await resp.json();
+
     return {
       props: {
-        projects: await resp.json(),
+        projects,
       },
     };
   }),
