@@ -128,6 +128,7 @@ interface BaseFlawEventDTO {
   id: string;
   flawId: string;
   justification: string;
+  flawName: string | null;
 }
 
 export interface AcceptedFlawEventDTO extends BaseFlawEventDTO {
@@ -298,6 +299,75 @@ export interface AffectedPackage {
   PurlWithVersion: string;
 }
 
+export interface AssetOverviewDTO {
+  totalDependenciesNumber: number;
+  criticalDependenciesNumber: number;
+
+  assetCombinedDependencies: {
+    scanType: string;
+    count: number;
+    countCritical: number;
+  }[];
+
+  assetRiskSummary: {
+    scannerID: string;
+    rawRiskAssessment: number;
+    count: number;
+    average: number;
+    sum: number;
+  }[];
+  assetRiskDistribution: {
+    scannerId: string;
+    riskRange: string;
+    count: number;
+  }[];
+  assetRisks: {
+    dayOfRisk: string;
+    dayOfScan: string;
+    assetSumRisk: number;
+    assetAvgRisk: number;
+    assetMaxRisk: number;
+    assetMinRisk: number;
+  }[];
+  assetFlaws: {
+    flawId: string;
+    rawRiskAssessment: number;
+    fixedVersion: string;
+  }[];
+
+  assetFlawsStateStatistics: {
+    open: number;
+    handled: number;
+    lastOpen: number;
+    lastHandled: number;
+  };
+
+  assetFlawsStateDistribution: {
+    state: string;
+    count: number;
+  }[];
+
+  assetHighestDamagedPackages: {
+    component: string;
+    count: number;
+  }[];
+
+  assetComponents: {
+    component: string;
+    count: number;
+  }[];
+
+  flawEvents: FlawEventDTO[];
+}
+
+export type TransformedAssetRisk = {
+  riskRange: string;
+  [scannerId: string]: number | string;
+};
+export type AssetRisks = AssetOverviewDTO["assetRisks"][number];
+export type AssetFlaws = AssetOverviewDTO["assetFlaws"][number];
+export type AssetRiskDistribution =
+  AssetOverviewDTO["assetRiskDistribution"][number];
 export interface FlawByPackage {
   packageName: string;
   maxRisk: number;
